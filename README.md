@@ -1,0 +1,2 @@
+zh_cn:
+此为主页仓库，提交issue,pull request请前往minecart1203shomepage仓库
