@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 关键：确保在 iPad 上完美适配，禁止缩放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>我的博客 · 主页</title>
+    <style>
+        /* 全局样式与 CSS 变量 (方便自定义主题) */
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent-color: #2563eb;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --radius: 20px;
+            --max-width: 720px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 24px 20px 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            width: 100%;
+        }
+
+        /* ===== 头部区域 ===== */
+        .blog-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .blog-title {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .blog-title a {
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .blog-title a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* ===== 个人简介卡片 ===== */
+        .hero-card {
+            background: var(--card-bg);
+            padding: 32px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
+        }
+        .hero-card h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .hero-card .bio {
+            color: var(--text-secondary);
+            font-size: 17px;
+            margin-bottom: 16px;
+        }
+        .hero-card .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .hero-card .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--bg-color);
+            padding: 4px 14px;
+            border-radius: 30px;
+            transition: all 0.2s;
+        }
+        .hero-card .social-links a:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* ===== 文章列表 ===== */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .post-item {
+            background: var(--card-bg);
+            padding: 20px 24px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            border: 1px solid var(--border-color);
+            cursor: default;
+        }
+        .post-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+        .post-item .post-date {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .post-item h3 {
+            font-size: 20px;
+            font-weight: 650;
+            margin: 4px 0 6px;
+        }
+        .post-item h3 a {
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .post-item h3 a:hover {
+            color: var(--accent-color);
+        }
+        .post-item .post-excerpt {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .post-meta-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .post-meta-tags span {
+            background: var(--bg-color);
+            font-size: 12px;
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* ===== iPad / 移动端适配 ===== */
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .blog-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .hero-card h1 { font-size: 24px; }
+            .post-item { padding: 16px; }
+            .nav-links { gap: 16px; font-size: 15px; }
+        }
+
+        /* ===== 暗色模式 (跟随系统) ===== */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #0f172a;
+                --card-bg: #1e293b;
+                --text-primary: #f1f5f9;
+                --text-secondary: #94a3b8;
+                --border-color: #334155;
+                --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            }
+            .hero-card .social-links a {
+                background: #334155;
+                color: #e2e8f0;
+            }
+            .post-meta-tags span {
+                background: #334155;
+                color: #cbd5e1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- 导航栏 -->
+        <header class="blog-header">
+            <div class="blog-title">
+                <a href="/">📘 My Blog</a>
+            </div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/archive">归档</a>
+                <a href="/about">关于</a>
+            </nav>
+        </header>
+
+        <!-- 个人简介 -->
+        <section class="hero-card">
+            <h1>👋 你好，我是 YourName</h1>
+            <p class="bio">
+                一个热爱代码、设计 & 效率工具的独立开发者。
+                这里记录我的技术成长与生活思考。
+            </p>
+            <div class="social-links">
+                <a href="https://github.com/你的用户名" target="_blank">GitHub</a>
+                <a href="https://twitter.com/" target="_blank">Twitter</a>
+                <a href="mailto:you@example.com">Email</a>
+                <a href="#">RSS</a>
+            </div>
+        </section>
+
+        <!-- 最新文章列表 -->
+        <div class="section-title">
+            <span>📝 最新文章</span>
+        </div>
+
+        <article class="post-item">
+            <div class="post-date">2026-08-30</div>
+            <h3><a href="#">在 iPadOS 上优雅地写代码</a></h3>
+            <p class="post-excerpt">
+                分享我在 iPad 上使用 Working Copy 和 Git Blog 管理 GitHub 博客的完整工作流...
+            </p>
+            <div class="post-meta-tags">
+                <span>效率工具</span>
+                <span>iPad</span>
+                <span>Git</span>
+            </div>
+        </article>
+
+        <article class="post-item">
+            <div class="post-date">2026-08-25</div>
+            <h3><a href="#">GitHub Pages 自定义域名全指南</a></h3>
+            <p class="post-excerpt">
+                从购买域名到配置 CNAME 记录，一步步教你让博客拥有专属的个性域名。
+            </p>
+            <div class="post-meta-tags">
+                <span>GitHub</span>
+                <span>域名</span>
+            </div>
+        </article>
+
+        <article class="post-item">
+            <div class="post-date">2026-08-18</div>
+            <h3><a href="#">使用 SwiftUI 构建极简笔记 App</a></h3>
+            <p class="post-excerpt">
+                最近开源的 Side Project，利用 SwiftData 和 iCloud 同步实现无缝体验。
+            </p>
+            <div class="post-meta-tags">
+                <span>Swift</span>
+                <span>iOS开发</span>
+                <span>开源</span>
+            </div>
+        </article>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2026 YourName · 基于 GitHub Pages 搭建</p>
+            <p style="margin-top:4px; font-size:13px; opacity:0.7;">Powered by ☕ & Swift</p>
+        </footer>
+
+    </div>
+
+    <!-- 极简控制台提示（方便在 iPad 上调试） -->
+    <script>
+        console.log("✅ 博客页面加载成功！");
+        console.log("💡 在 iPad 上可双击选择文本，或使用外接键盘编辑。");
+    </script>
+</body>
+</html>
